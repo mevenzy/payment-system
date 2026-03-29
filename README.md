@@ -52,7 +52,7 @@
 1. Склонировать репозиторий:
 
 ```
-git clone https://github.com/your-username/payment-system.git
+git clone https://github.com/mevenzy/payment-system.git
 ```
 
 2. Открыть в IntelliJ IDEA
