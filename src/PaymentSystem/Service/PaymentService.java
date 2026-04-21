@@ -48,7 +48,8 @@ public class PaymentService {
                 fromName,
                 toName,
                 amount,
-                method
+                method,
+                TransactionType.TRANSFER
             );
 
             transactionRepo.save(transaction);
@@ -77,6 +78,18 @@ public class PaymentService {
 
         try {
             user.setBalance(oldBalance + amount);
+
+            Transaction transaction = new Transaction(
+                    generateId(),
+                    null,
+                    name,
+                    amount,
+                    PaymentMethod.CARD,
+                    TransactionType.DEPOSIT
+            );
+
+            transactionRepo.save(transaction);
+
             System.out.println("✅ Баланс успешно пополнен");
 
         } catch (Exception e) {
@@ -102,6 +115,18 @@ public class PaymentService {
 
         try {
             user.setBalance(oldBalance - amount);
+
+            Transaction transaction = new Transaction(
+                    generateId(),
+                    name,
+                    null,
+                    amount,
+                    PaymentMethod.CARD,
+                    TransactionType.WITHDRAW
+            );
+
+            transactionRepo.save(transaction);
+
             System.out.println("✅ Списание прошло успешно");
 
         } catch (Exception e) {
@@ -119,11 +144,24 @@ public class PaymentService {
 
         System.out.println("=== ИСТОРИЯ ОПЕРАЦИЙ ===");
         for (Transaction transaction : transactionRepo.findAll()) {
-            System.out.println("ID: " + transaction.getId() +
-                    " | От: " + transaction.getFromUser() +
-                    " | Кому: " + transaction.getToUser() +
-                    " | Сумма: " + transaction.getAmount() +
-                    " | Способ: " + transaction.getMethod());
+
+            switch (transaction.getType()) {
+                case TRANSFER -> System.out.println("#" + transaction.getId() +
+                            " | " + transaction.getType().toString() +
+                            " | " + transaction.getFromUser() + " → " + transaction.getToUser() +
+                            " | " + transaction.getAmount() +
+                            " | " + transaction.getMethod());
+
+                case DEPOSIT -> System.out.println("#" + transaction.getId() +
+                            " | " + transaction.getType().toString() +
+                            " | " + transaction.getToUser() +
+                            " | +" + transaction.getAmount());
+
+                case WITHDRAW -> System.out.println("#" + transaction.getId() +
+                            " | " + transaction.getType().toString() +
+                            " | " + transaction.getFromUser() +
+                            " | -" + transaction.getAmount());
+            }
         }
     }
 

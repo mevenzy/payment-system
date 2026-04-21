@@ -6,13 +6,19 @@ public class Transaction {
     private String toUser;
     private double amount;
     private PaymentMethod method;
+    private TransactionType type;
 
-    public Transaction(int id, String fromUser, String toUser, double amount, PaymentMethod method) {
+    public Transaction(int id, String fromUser, String toUser, double amount, PaymentMethod method, TransactionType type) {
         this.id = id;
         this.fromUser = fromUser;
         this.toUser = toUser;
         this.amount = amount;
         this.method = method;
+        this.type = type;
+    }
+
+    public TransactionType getType() {
+        return type;
     }
 
     public int getId() {
