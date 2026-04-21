@@ -149,18 +149,18 @@ public class PaymentService {
                 case TRANSFER -> System.out.println("#" + transaction.getId() +
                             " | " + transaction.getType().toString() +
                             " | " + transaction.getFromUser() + " → " + transaction.getToUser() +
-                            " | " + transaction.getAmount() +
+                            " | " + transaction.getAmount() + "₽" +
                             " | " + transaction.getMethod());
 
                 case DEPOSIT -> System.out.println("#" + transaction.getId() +
                             " | " + transaction.getType().toString() +
                             " | " + transaction.getToUser() +
-                            " | +" + transaction.getAmount());
+                            " | +" + transaction.getAmount() + "₽");
 
                 case WITHDRAW -> System.out.println("#" + transaction.getId() +
                             " | " + transaction.getType().toString() +
                             " | " + transaction.getFromUser() +
-                            " | -" + transaction.getAmount());
+                            " | -" + transaction.getAmount()  + "₽");
             }
         }
     }
